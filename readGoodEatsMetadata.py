@@ -1,4 +1,5 @@
 # coding:utf-8
+from bs4 import BeautifulSoup
 import csv
 from dataManager import DataCollector, DataCleaner
 from fileManager import fileManager
@@ -7,7 +8,7 @@ import requests
 
 # File List
 filePath = ''
-fileNames = ['goodEatsLinks.csv', 'goodEatsData.csv']
+fileNames = ['goodEatsLinks.csv', 'goodEatsMetadata.csv']
 
 # Create FileHandlers
 readManager = fileManager(fileNames[0])
@@ -21,10 +22,13 @@ dataCleaner = DataCleaner()
 
 # Read data from file and iterate through url links to get article data
 for row in readManager.getRows():
-	# get the data
-	responseObj = dataCollector.MakeHTTPRequest('http://www.goodeatsfanpage.com/Season5/Crepe/CrepeTranscript.htm')
+	# get the metadata
+	responseObj = dataCollector.MakeHTTPRequest(row[2])
+
+	# print row[2]
 
 	# clean the data before storage
+
 	# Article Content
 	content = dataCleaner.ConvertHTMLToUnicode(responseObj['content'])
 	content = dataCleaner.CleanDataUsingRegex('<[^>]*>', '', content)
@@ -34,11 +38,12 @@ for row in readManager.getRows():
 	content = content.encode('utf-8')
 
 	# Article Title
-	title = dataCleaner.ConvertHTMLToUnicode(responseObj['title'])
+	title = dataCleaner.ConvertHTMLToUnicode(responseObj['title'].decode('utf-8'))
 	title = dataCleaner.CleanDataUsingRegex(r'(?i)[\s]+Tran[c]?script', '', title)
 	title = title.encode('utf-8')
 
 	# Write EpisodeCode, EpisodeSeason, EpisodeTitle, EpisodeContent to file
 	writeManager.writeRows([row[0], row[1], title, content])
+
 	break
 	

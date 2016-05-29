@@ -32,7 +32,10 @@ class fileManager:
 
 	def writeRows(self, data = []):
 		if(self.writer):
-			self.writer.writerow(data)
+			try:
+				self.writer.writerow(data)
+			except Exception, e:
+				raise e
 		else:
 			return None
 
