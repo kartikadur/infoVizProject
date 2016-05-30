@@ -1,5 +1,6 @@
 # coding: utf-8
 from HTMLParser import HTMLParser
+from bs4 import BeautifulSoup
 import re
 import json
 import requests
@@ -31,7 +32,7 @@ class DataCleaner:
 	"""docstring for DataCleaner"""
 
 	def __ini__(self):
-		return
+		pass
 
 	def ConvertHTMLToUnicode(self, data):
 		parserHTML = HTMLParser()
@@ -48,3 +49,45 @@ class DataCleaner:
 			return re.sub(regex, replace, data)
 		else :
 			return None
+
+	def CleanDataUsingRegexList(self, regex, replace, data = []):
+		tempdata = []
+		if regex and isinstance(data, list):
+			for d in data:
+				tempdata.append(re.sub(regex, replace, d))
+			return tempdata
+		else :
+			return None
+
+	def ParseDataWithBeautifulSoup(self, data):
+		# pass
+
+		soup = BeautifulSoup(data, "html.parser")
+		pattern = re.compile('(?i)Title|Transcript|Show|Original Air Date|Topic|Synopsis|Recipe')
+
+		# Find all HTML code within 'table' tags
+		tables = soup.find_all("table")
+
+		tableData = []
+		datasets = []
+		# search for 'title' in table
+		# Skip table if it cannot be found in table
+		for table in tables:
+			if(table.find('Title')): print table
+			for row in table.find_all("tr"):
+				dataset = []
+				for td in row.find_all("td"):
+					dataset.append(td.get_text())
+				tableData.append(dataset)
+
+		for item in tableData:
+			if pattern.match(item[0]):
+				item[0] = item[0].encode('utf-8')
+				item[1] = item[1].encode('utf-8')
+				item = self.CleanDataUsingRegexList('[\xc2\xa0]+', '', item)
+				item = self.CleanDataUsingRegexList('[\\n]+', '', item)
+				item = self.CleanDataUsingRegexList('[\s]+', ' ', item)
+				datasets.append(item)
+
+		datasets = dict(datasets)
+		return datasets

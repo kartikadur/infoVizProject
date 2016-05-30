@@ -41,4 +41,7 @@ for row in readManager.getRows():
 	# Write EpisodeCode, EpisodeSeason, EpisodeTitle, EpisodeContent to file
 	writeManager.writeRows([row[0], row[1], title, content])
 	break
+
+FileHandlers[0].closeFile()
+FileHandlers[1].closeFile()
 	
