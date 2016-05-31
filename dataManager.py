@@ -71,7 +71,7 @@ class DataCleaner:
 		# pass
 
 		soup = BeautifulSoup(data, "html.parser")
-		pattern = re.compile('(?i)Title|Transcript|Show|Original Air Date|Topics|Synopsis|Recipes')
+		pattern = re.compile('^(?i)Title|Transcript|Show|Original Air Date|Topics|Synopsis|Recipes$')
 
 		# Find all HTML code within 'table' tags
 		tables = soup.find_all("table")
