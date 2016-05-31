@@ -22,7 +22,8 @@ dataCleaner = DataCleaner()
 # Read data from file and iterate through url links to get article data
 for row in readManager.getRows():
 	# get the data
-	responseObj = dataCollector.MakeHTTPRequest('http://www.goodeatsfanpage.com/Season5/Crepe/CrepeTranscript.htm')
+	# responseObj = dataCollector.MakeHTTPRequest('http://www.goodeatsfanpage.com/Season5/Crepe/CrepeTranscript.htm')
+	responseObj = dataCollector.MakeHTTPRequest(row[3])
 
 	# clean the data before storage
 	# Article Content
@@ -40,8 +41,9 @@ for row in readManager.getRows():
 
 	# Write EpisodeCode, EpisodeSeason, EpisodeTitle, EpisodeContent to file
 	writeManager.writeRows([row[0], row[1], title, content])
-	break
+	print row[0] + " done!"
+	# break
 
-FileHandlers[0].closeFile()
-FileHandlers[1].closeFile()
+readManager.closeFile()
+writeManager.closeFile()
 	

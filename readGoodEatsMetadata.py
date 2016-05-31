@@ -27,34 +27,34 @@ dataCleaner = DataCleaner()
 # Read data from file and iterate through url links to get article data
 for row in readManager.getRows():
 	# get the metadata
-	# responseObj = dataCollector.MakeHTTPRequest(row[2])
-	responseObj = dataCollector.MakeHTTPRequest("http://www.goodeatsfanpage.com/Season5/EA1E09.htm")
-
-	# print row[2]
+	# row[0] = "EA1E05"
+	# row[2] = "http://www.goodeatsfanpage.com/Season12/EA1E05.htm"
+	if row[0] == "EASP04H" or row[0] == "EA1115":
+		responseObj = dataCollector.SendHTTPRequest(row[2])
+	elif row[0] == "EA0921" or row[0] == "EA0915" or row[0] == "EA1H18" :
+		# These are being avoided for the time being, and may need to be added manually
+		# responseObj = dataCollector.SendHTTPRequest(row[2])
+		continue
+	# elif row[0] == "EA1E05" :
+	# 	responseObj = dataCollector.MakeHTTPRequest(row[2])
+	else :
+		responseObj = dataCollector.MakeHTTPRequest(row[2])
+	
 
 	# clean the data before storage
 
 	# Article Content
-	content = dataCleaner.ConvertHTMLToUnicode(responseObj['content'])
+	content = dataCleaner.ConvertHTMLToUnicode(responseObj)
 	dataset = dataCleaner.ParseDataWithBeautifulSoup(content)
 
-	# print dataset
+	# To normalize headers when adding to the csv file
+	# if row[0] == "EA1F05" or row[0] == "EA1E05":
+	# 	dataset['Recipes'] = dataset.pop('Recipe from Transcript')
 
-
-	# content = dataCleaner.CleanDataUsingRegex('<[^>]*>', '', content)
-	# content = dataCleaner.CleanDataUsingRegex('[\xc2\xa0]+', '', content)
-	# content = dataCleaner.CleanDataUsingRegex('[\\n]+', '', content)
-	# content = dataCleaner.CleanDataUsingRegex('[\s]+', ' ', content)
-	# content = content.encode('utf-8')
-
-	# Article Title
-	# title = dataCleaner.ConvertHTMLToUnicode(responseObj['title'].decode('utf-8'))
-	# title = dataCleaner.CleanDataUsingRegex(r'(?i)[\s]+Tran[c]?script', '', title)
-	# title = title.encode('utf-8')
-
-	# Write EpisodeCode, EpisodeSeason, EpisodeTitle, EpisodeContent to file
+	# Write 'Show #', 'Show No.', 'Title', 'Topics', 'Synopsis', 'Original Air Date', 'Transcript', 'Recipes' to file
 	writeManager.writerow(dataset)
+	print dataset["Show #"] + " done!"
 
-	break
+	# break
 
 readManager.closeFile()

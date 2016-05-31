@@ -1,6 +1,7 @@
 # coding: utf-8
 from HTMLParser import HTMLParser
 from bs4 import BeautifulSoup
+from collections import defaultdict
 import re
 import json
 import requests
@@ -25,7 +26,14 @@ class DataCollector:
 		httpRequestString = self.__readability["base"] + self.__readability["version"] + "/" + self.__readability["apiType"][0] + "?url=" + targetURL + "&token=" + self.__readability["token"]
 		responseObj = requests.get(httpRequestString)
 		parsedResponse = json.loads(responseObj.text)
-		return parsedResponse
+		# print parsedResponse
+		return parsedResponse['content']
+
+	def SendHTTPRequest(self, targetURL):
+		responseObj = requests.get(targetURL)
+		# print responseObj
+		# print responseObj.text.encode('utf-8')
+		return responseObj.text
 
 class DataCleaner:
 
@@ -63,13 +71,13 @@ class DataCleaner:
 		# pass
 
 		soup = BeautifulSoup(data, "html.parser")
-		pattern = re.compile('(?i)Title|Transcript|Show|Original Air Date|Topic|Synopsis|Recipe')
+		pattern = re.compile('(?i)Title|Transcript|Show|Original Air Date|Topics|Synopsis|Recipes')
 
 		# Find all HTML code within 'table' tags
 		tables = soup.find_all("table")
 
 		tableData = []
-		datasets = []
+		datasets = defaultdict()
 		# search for 'title' in table
 		# Skip table if it cannot be found in table
 		for table in tables:
@@ -87,7 +95,12 @@ class DataCleaner:
 				item = self.CleanDataUsingRegexList('[\xc2\xa0]+', '', item)
 				item = self.CleanDataUsingRegexList('[\\n]+', '', item)
 				item = self.CleanDataUsingRegexList('[\s]+', ' ', item)
-				datasets.append(item)
+				datasets[item[0]] = item[1]
 
-		datasets = dict(datasets)
+		print datasets
 		return datasets
+
+if __name__ == '__main__':
+	dataCollector = DataCollector()
+	responseObj = dataCollector.MakeHTTPRequest("http://www.goodeatsfanpage.com/Season13/EASP04H.htm")
+	print responseObj
