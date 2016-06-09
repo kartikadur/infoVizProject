@@ -18,11 +18,47 @@ class Episode(object):
 	
 	"""docstring for Episode"""
 	
-	def __init__(self, showID, showTitle):
+	def __init__(self, showTitle):
 		super(Episode, self).__init__()
-		
-		self.showID = showID
 		self.showTitle = showTitle
+
+	def setShowID(self, showID):
+		self.showID = showID
+		self.setShowSeason()
+		self.setSeasonShowNumber()
+
+
+	def setSeasonShowNumber(self):
+		eid = self.showID[4:6]
+		if eid:
+			self.seasonShowNumber = int(eid.strip())
+		else :
+			self.seasonShowNumber = None
+		
+	def setShowSeason(self):
+		sid = self.showID[2:4].strip()
+		if sid == "SP":
+			self.showSeason = 15
+		elif sid == "1A":
+			self.showSeason = 1
+		elif sid == "1B":
+			self.showSeason = 2
+		elif sid == "1C":
+			self.showSeason = 3
+		elif sid == "1D":
+			self.showSeason = 4
+		elif sid == "1E":
+			self.showSeason = 5
+		elif sid == "1F":
+			self.showSeason = 6
+		elif sid == "1G":
+			self.showSeason = 7
+		elif sid == "1H":
+			self.showSeason = 8
+		elif sid and int(sid) >= 9 and int(sid) <= 14:
+			self.showSeason = int(sid)
+		else :
+			self.showSeason = None
 
 	def setShowNumber(self, showNo):
 		self.showNumber = re.sub(r"(st|nd|rd|th)$", "", showNo, flags=re.I)
@@ -42,6 +78,9 @@ class Episode(object):
 
 	def addTranscriptID(self, transcriptID):
 		self.transcriptID = transcriptID
+
+	def addTranscript(self, content):
+		self.transcriptContent = content
 
 
 
