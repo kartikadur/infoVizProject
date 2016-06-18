@@ -1,0 +1,31 @@
+body{
+text-align: center;
+margin:0;
+padding:0;
+background-color: #ffffcc;
+}
+
+#bigbadrap {
+max-width: 1000px;
+margin: 0 auto;
+text-align: left;
+}
+
+#lcol {
+float: left;
+max-width: 200px;
+}
+
+#rcol {
+float: right;
+max-width: 800px;
+margin: 0 auto;
+text-align: left;
+}
+
+@media (max-width: 600px) {
+ #lcol { display: none; }
+ #bigbadrap { width: 100%; }
+ #rcol { width: 100%; float: none; }
+}
+

@@ -1,4 +1,4 @@
-# coding: utf-8
+# coding : utf-8
 from html.parser import HTMLParser
 from bs4 import BeautifulSoup
 from collections import defaultdict
@@ -31,8 +31,9 @@ class DataCollector:
 
 	def SendHTTPRequest(self, targetURL):
 		responseObj = requests.get(targetURL)
-		# print responseObj
+		# print(responseObj.text)
 		# print responseObj.text.encode('utf-8')
+		print('sanity check data manager')
 		return responseObj.text
 
 class DataCleaner:
@@ -79,26 +80,33 @@ class DataCleaner:
 		# search for 'title' in table
 		# Skip table if it cannot be found in table
 		for table in tables:
-			# if(table.find('Title')): print table
+			# if(table.find('Title')): print(table.encode('utf-8'))
 			for row in table.find_all("tr"):
 				dataset = []
 				for td in row.find_all("td"):
-					dataset.append(td.get_text())
+					# Remove lead and trailing spaces for improved regex matching in next for loop
+					dataset.append(td.get_text().strip())
 				tableData.append(dataset)
 
 		for item in tableData:
+			# print(item)
 			if pattern.match(item[0]):
-				item[0] = item[0].encode('utf-8')
-				item[1] = item[1].encode('utf-8')
+				# print(item)
+				# item[0] = item[0].encode('utf-8')
+				# item[1] = item[1].encode('utf-8')
 				item = self.CleanDataUsingRegexList('[\xc2\xa0]+', '', item)
+				item = self.CleanDataUsingRegexList('[’]', '\'', item)
 				item = self.CleanDataUsingRegexList('[\\n]+', '', item)
 				item = self.CleanDataUsingRegexList('[\s]+', ' ', item)
 				datasets[item[0]] = item[1]
+				# print(item[0].encode('utf-8'), item[1].encode('utf-8'))
 
-		# print datasets
+		# for i in datasets:
+		# 	# if(isinstance(type(datasets[i]), str)):
+		# 	print(datasets[i].encode('utf-8'))
 		return datasets
 
 if __name__ == '__main__':
 	dataCollector = DataCollector()
-	responseObj = dataCollector.MakeHTTPRequest("http://www.goodeatsfanpage.com/Season13/EASP04H.htm")
-	print(responseObj)
+	responseObj = dataCollector.SendHTTPRequest("http://www.goodeatsfanpage.com/Season9/EA0915.htm")
+	print(responseObj.encode('utf-8'))

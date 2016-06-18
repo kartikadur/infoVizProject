@@ -34,4 +34,5 @@ for row in readManager:
 	# Write EpisodeCode, EpisodeSeason, EpisodeTitle, EpisodeContent to file
 	writeManager.writerow([row[0], content])
 	print(row[0] + " done!")
+	break
 	
