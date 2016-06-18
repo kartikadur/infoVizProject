@@ -4,6 +4,8 @@ import requests
 from bs4 import BeautifulSoup, SoupStrainer
 import re
 
+
+""" Update to python 3 and remove fileManager links and related code """
 # Variables
 urlList = list()
 urlPart = list()

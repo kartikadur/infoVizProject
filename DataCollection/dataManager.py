@@ -1,5 +1,5 @@
 # coding: utf-8
-from HTMLParser import HTMLParser
+from html.parser import HTMLParser
 from bs4 import BeautifulSoup
 from collections import defaultdict
 import re
@@ -45,8 +45,6 @@ class DataCleaner:
 	def ConvertHTMLToUnicode(self, data):
 		parserHTML = HTMLParser()
 		if data :
-			if isinstance(data, str):
-				data.decode('utf-8')
 			return parserHTML.unescape(data)
 		else :
 			return None
@@ -81,7 +79,7 @@ class DataCleaner:
 		# search for 'title' in table
 		# Skip table if it cannot be found in table
 		for table in tables:
-			if(table.find('Title')): print table
+			# if(table.find('Title')): print table
 			for row in table.find_all("tr"):
 				dataset = []
 				for td in row.find_all("td"):
@@ -97,10 +95,10 @@ class DataCleaner:
 				item = self.CleanDataUsingRegexList('[\s]+', ' ', item)
 				datasets[item[0]] = item[1]
 
-		print datasets
+		# print datasets
 		return datasets
 
 if __name__ == '__main__':
 	dataCollector = DataCollector()
 	responseObj = dataCollector.MakeHTTPRequest("http://www.goodeatsfanpage.com/Season13/EASP04H.htm")
-	print responseObj
+	print(responseObj)

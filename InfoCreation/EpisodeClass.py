@@ -4,13 +4,18 @@ from datetime import datetime
 
 """
 class variables
-1. showID
-2. showNumber
-3. Title
-4. Topic --> store as list (use nltk?)
-5. Synopsis --> use nltk?
-6. Original Air date (currently for canada, would the US one be better?)
-7. Recipes -> store as list
+- episodeID
+- showID
+- episodeNumber
+- seasonNumber
+- seasonEpisodeNumber
+- Title
+- Topic --> store as list (use nltk?)
+- Synopsis --> use nltk?
+- Original Air date (currently for canada, would the US one be better?)
+- Recipes -> store as list
+- transcriptID
+- transcriptContent
 
 """
 
@@ -22,46 +27,50 @@ class Episode(object):
 		super(Episode, self).__init__()
 		self.showTitle = showTitle
 
-	def setShowID(self, showID):
-		self.showID = showID
-		self.setShowSeason()
-		self.setSeasonShowNumber()
+	def setEpisodeID(self, episodeID):
+		self.episodeID = episodeID
+		self.setSeasonNumber()
+		self.setSeasonEpisodeNumber()
+		self.setShowID()
 
+	def setShowID(self):
+		# self.setEpisodeObjectID = str(self.showSeason).zfill(zFillNumber) + 
+		self.showID = str(self.seasonNumber).zfill(2) + str(self.seasonEpisodeNumber).zfill(2)
 
-	def setSeasonShowNumber(self):
-		eid = self.showID[4:6]
+	def setSeasonEpisodeNumber(self):
+		eid = self.episodeID[4:6]
 		if eid:
-			self.seasonShowNumber = int(eid.strip())
+			self.seasonEpisodeNumber = int(eid.strip())
 		else :
-			self.seasonShowNumber = None
+			self.seasonEpisodeNumber = None
 		
-	def setShowSeason(self):
-		sid = self.showID[2:4].strip()
+	def setSeasonNumber(self):
+		sid = self.episodeID[2:4].strip()
 		if sid == "SP":
-			self.showSeason = 15
+			self.seasonNumber = 15
 		elif sid == "1A":
-			self.showSeason = 1
+			self.seasonNumber = 1
 		elif sid == "1B":
-			self.showSeason = 2
+			self.seasonNumber = 2
 		elif sid == "1C":
-			self.showSeason = 3
+			self.seasonNumber = 3
 		elif sid == "1D":
-			self.showSeason = 4
+			self.seasonNumber = 4
 		elif sid == "1E":
-			self.showSeason = 5
+			self.seasonNumber = 5
 		elif sid == "1F":
-			self.showSeason = 6
+			self.seasonNumber = 6
 		elif sid == "1G":
-			self.showSeason = 7
+			self.seasonNumber = 7
 		elif sid == "1H":
-			self.showSeason = 8
+			self.seasonNumber = 8
 		elif sid and int(sid) >= 9 and int(sid) <= 14:
-			self.showSeason = int(sid)
+			self.seasonNumber = int(sid)
 		else :
-			self.showSeason = None
+			self.seasonNumber = None
 
-	def setShowNumber(self, showNo):
-		self.showNumber = re.sub(r"(st|nd|rd|th)$", "", showNo, flags=re.I)
+	def setEpisodeNumber(self, showNo):
+		self.episodeNumber = re.sub(r"(st|nd|rd|th)$", "", showNo, flags=re.I)
 
 	def addTopics(self, topics):
 		self.topicList = topics.strip().split(", ")
