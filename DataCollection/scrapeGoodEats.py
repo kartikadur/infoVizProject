@@ -1,4 +1,4 @@
-from fileManager import fileManager
+# coding : utf-8
 import csv
 import requests
 from bs4 import BeautifulSoup, SoupStrainer
@@ -13,24 +13,22 @@ uri = list()
 rowCount = 0
 
 # Good Eats website data
-websiteUrl = "http://www.goodeatsfanpage.com/"
+websiteUrl = "http://www.goodeatsfanpage.com"
 uri.append("gefp/episodebyorder.htm")
 
 # regex matcher
-regexPatterns = ['^\.\./Season\d+/\w+/\w+', '^\.\./Season\d+/\w+.htm[l]?$']
+regexPatterns = ['^\.\./Season\d+/[\w\-\_\.]+/[\w\-\_]+', '^\.\./Season\d+/\w+.htm[l]?$']
 patterns = [re.compile(regexPatterns[0]), re.compile(regexPatterns[1])]
 
 # file managers
-fileNames = ['goodEatsLinks.csv']
-fileHandler = list()
+filePath = "../Data/"
+fileName = "goodEatsLinks.csv"
 
 # response and request objects
-response = requests.get(websiteUrl + uri[0])
+response = requests.get("/".join([websiteUrl,uri[0]]))
 
 # create and open file through file manager and store in file handler list
-fileHandler.append(fileManager(fileNames[0]))
-fileHandler[0].openFile('wb')
-
+writeManager = csv.writer(open(filePath + fileName, 'w'), delimiter=",", lineterminator='\n')
 
 # loop through all useful links
 for link in BeautifulSoup(response.content, "html.parser", parse_only = SoupStrainer('a')):
@@ -40,10 +38,10 @@ for link in BeautifulSoup(response.content, "html.parser", parse_only = SoupStra
 	if(link.has_attr('href') and patterns[0].match(link['href'])):
 		urlPart.append(link['href'].split('/', 2)[2])
 		# unique episode id, season id, episode metadata url, episode transcript url
-		fileHandler[0].writeRows([urlPart[3], 
-									urlPart[1], 
-									websiteUrl + urlPart[1] + '/' + urlPart[2], 
-									websiteUrl + urlPart[1] + '/' + urlPart[4]])
+		writeManager.writerow([urlPart[3], 
+								urlPart[1], 
+								"/".join([websiteUrl,urlPart[1],urlPart[2]]), 
+								"/".join([websiteUrl,urlPart[1],urlPart[4]])])
 
-# close file handler
-fileHandler[0].closeFile();
+		print(urlPart[3], "Done!")
+		# break

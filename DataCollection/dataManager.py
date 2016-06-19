@@ -92,12 +92,13 @@ class DataCleaner:
 			# print(item)
 			if pattern.match(item[0]):
 				# print(item)
-				# item[0] = item[0].encode('utf-8')
-				# item[1] = item[1].encode('utf-8')
-				item = self.CleanDataUsingRegexList('[\xc2\xa0]+', '', item)
+				# Clean as string then encode to bytecode
+				item = self.CleanDataUsingRegexList(u"\u00A0", " ", item)
 				item = self.CleanDataUsingRegexList('[’]', '\'', item)
 				item = self.CleanDataUsingRegexList('[\\n]+', '', item)
 				item = self.CleanDataUsingRegexList('[\s]+', ' ', item)
+				item[0] = item[0].encode('utf-8')
+				item[1] = item[1].encode('utf-8')
 				datasets[item[0]] = item[1]
 				# print(item[0].encode('utf-8'), item[1].encode('utf-8'))
 

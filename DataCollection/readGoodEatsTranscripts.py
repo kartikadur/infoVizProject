@@ -10,7 +10,7 @@ fileNames = ['goodEatsLinks.csv', 'goodEatsData.csv']
 
 # Create FileHandlers
 readManager = csv.reader(open(filePath + fileNames[0], 'r'), delimiter=",")
-writeManager = csv.writer(open(filePath + fileNames[1], 'w'), delimiter=",")
+writeManager = csv.writer(open(filePath + fileNames[1], 'w', encoding="utf-8"), delimiter=",", lineterminator='\n')
 
 # Create Data Handler
 dataCollector = DataCollector()
@@ -26,13 +26,13 @@ for row in readManager:
 	# Article Content
 	content = dataCleaner.ConvertHTMLToUnicode(responseObj)
 	content = dataCleaner.CleanDataUsingRegex('<[^>]*>', '', content)
-	content = dataCleaner.CleanDataUsingRegex('[\xc2\xa0]+', '', content)
+	content = dataCleaner.CleanDataUsingRegex(u'\u00A0', ' ', content)
 	content = dataCleaner.CleanDataUsingRegex('[\\n]+', '', content)
 	content = dataCleaner.CleanDataUsingRegex('[\s]+', ' ', content)
 	content = content.encode('utf-8')
 
-	# Write EpisodeCode, EpisodeSeason, EpisodeTitle, EpisodeContent to file
+	# Write EpisodeCode, EpisodeContent to file
 	writeManager.writerow([row[0], content])
 	print(row[0] + " done!")
-	break
+	# break
 	
