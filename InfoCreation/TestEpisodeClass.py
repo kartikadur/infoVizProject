@@ -63,6 +63,9 @@ class TestEpisode(unittest.TestCase):
 		self.ep.addRecipes("")
 		self.assertEqual(self.ep.recipeList,[])
 
+		self.ep.addRecipes(".")
+		self.assertEqual(self.ep.recipeList,[])		
+
 	# Check for air date
 	def test_toCheckEpisodeForOriginalAirDate(self):
 		self.ep.addAirDate("02.10.2011")
@@ -70,6 +73,21 @@ class TestEpisode(unittest.TestCase):
 
 		self.ep.addAirDate("7.11.2001")
 		self.assertEqual(self.ep.airDate, "2001-07-11T00:00:00")
+
+		self.ep.addAirDate("07.??.1998: WTTW, Ch. 11, Chicago, IL 07.07.1999: FoodTV")
+		self.assertEqual(self.ep.airDate, "1999-07-07T00:00:00")
+
+		self.ep.addAirDate("11.14.1999 (During Season 1)")
+		self.assertEqual(self.ep.airDate, "1999-11-14T00:00:00")
+
+		self.ep.addAirDate("12.08.2008 in the US 05.26.2008 (maybe) in Canada")
+		self.assertEqual(self.ep.airDate, "2008-12-08T00:00:00")
+
+		self.ep.addAirDate("10.10.2009 at 10:00 pm")
+		self.assertEqual(self.ep.airDate, "2009-10-10T00:00:00")
+
+		self.ep.addAirDate("10.26..2009")
+		self.assertEqual(self.ep.airDate, "2009-10-26T00:00:00")
 
 	# Check for transcript ID
 	def test_toCheckEpisodeForTranscriptID(self):

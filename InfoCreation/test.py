@@ -1,14 +1,16 @@
+# coding : utf-8
 from nltk.tokenize import sent_tokenize, word_tokenize
 from nltk.corpus import stopwords
 from nltk.stem import PorterStemmer
 import json
+import csv
 
-ps = PorterStemmer()
-stop_words = set(stopwords.words("english"))
+anotherShow = 'another show'
 
-fp = open("../DataCleaned/jsonOut.json", "r")
-text = fp.read()
+readManager = csv.reader(open('../Data/goodEatsData.csv', 'r', encoding='utf-8'), delimiter=',')
 
-print(text[200:1000])
+for line in readManager:
+	if 'Dark Chocolate'.lower() in line[1].lower():
+		print ('Yes in show ', line[0])
 
-
+	# break

@@ -84,11 +84,22 @@ class Episode(object):
 		self.recipeList = []
 		tempRecipes = re.compile(r"\s?[0-9][\)|\.]\s?").split(recipes.strip())
 		for recipe in tempRecipes:
-			if recipe and not re.match('[\w\W]*none[\w\W]*.', recipe, re.IGNORECASE):
+			if recipe and not re.match('[\w\W]*none[\w\W]*.', recipe, re.IGNORECASE) and not re.match('\.', recipe):
 				self.recipeList.append(recipe)
 
 	def addAirDate(self, airDate):
-		self.airDate = datetime.strptime(airDate, "%m.%d.%Y").isoformat()
+		
+		# Create Pattern to check for dates in the format mm.dd.yyyy
+		pattern = re.compile('[\d]{1,2}\.[\d]{1,2}\.[\d]{4}')
+
+		# Remove any extra periods so that format matches mm.dd.yyyy
+		airDate = re.sub('[\.]+', '.', airDate)
+		
+		tempDate = pattern.search(airDate)
+		if tempDate :
+			self.airDate = datetime.strptime(tempDate.group(), "%m.%d.%Y").isoformat()
+		else :
+			self.airDate = None
 
 	def addTranscriptID(self, transcriptID):
 		self.transcriptID = transcriptID
