@@ -90,29 +90,29 @@ class TestEpisode(unittest.TestCase):
 
 	def test_toCheckEpisodeForSeason(self):
 		self.ep.setEpisodeID("EA1004H")
-		self.assertEqual(self.ep.seasonNumber, 10)
+		self.assertEqual(Episode.getSeasonNumber(self.ep.episodeID), 10)
 
 		self.ep.setEpisodeID("EASP06H")
-		self.assertEqual(self.ep.seasonNumber, 15)
+		self.assertEqual(Episode.getSeasonNumber(self.ep.episodeID), 15)
 
 		self.ep.setEpisodeID("EA1G02")
-		self.assertEqual(self.ep.seasonNumber, 7)
+		self.assertEqual(Episode.getSeasonNumber(self.ep.episodeID), 7)
 
 		self.ep.setEpisodeID("")
-		self.assertEqual(self.ep.seasonNumber, None)
+		self.assertEqual(Episode.getSeasonNumber(self.ep.episodeID), None)
 
 	def test_toCheckEpisodeForSeasonEpisodeNumber(self):
 		self.ep.setEpisodeID("EA1004H")
-		self.assertEqual(self.ep.seasonEpisodeNumber, 4)
+		self.assertEqual(Episode.getSeasonEpisodeNumber(self.ep.episodeID), 4)
 
 		self.ep.setEpisodeID("EASP06H")
-		self.assertEqual(self.ep.seasonEpisodeNumber, 6)
+		self.assertEqual(Episode.getSeasonEpisodeNumber(self.ep.episodeID), 6)
 
 		self.ep.setEpisodeID("EA1G02")
-		self.assertEqual(self.ep.seasonEpisodeNumber, 2)
+		self.assertEqual(Episode.getSeasonEpisodeNumber(self.ep.episodeID), 2)
 
 		self.ep.setEpisodeID("")
-		self.assertEqual(self.ep.seasonEpisodeNumber, None)
+		self.assertEqual(Episode.getSeasonEpisodeNumber(self.ep.episodeID), None)
 
 	def test_AddingEpisodeTranscript(self):
 		self.ep.addTranscript("This is some placeholder text")
@@ -120,13 +120,13 @@ class TestEpisode(unittest.TestCase):
 
 	def test_toCheckEpisodeAddsEpisodeObjectID(self):
 		self.ep.setEpisodeID("EA1004H")
-		self.assertEqual(self.ep.showID, '1004')
+		self.assertEqual(Episode.getShowID(self.ep.episodeID), '1004')
 
 		self.ep.setEpisodeID("EASP06H")
-		self.assertEqual(self.ep.showID, '1506')
+		self.assertEqual(Episode.getShowID(self.ep.episodeID), '1506')
 
 		self.ep.setEpisodeID("EA1G02")
-		self.assertEqual(self.ep.showID, '0702')
+		self.assertEqual(Episode.getShowID(self.ep.episodeID), '0702')
 
 
 

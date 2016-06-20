@@ -4,43 +4,39 @@ import csv
 from EpisodeClass import Episode
 
 # File Data
-filePath = "../DataCleaned/"
-fileNameForReading = ["GoodEatsMetadata.csv - goodEatsMetadata.csv","GoodEatsTranscriptData.csv - goodEatsData.csv"]
+filePath = ["../Data/", "../DataCleaned/"]
+fileNameForReading = ["goodEatsMetadata.csv","goodEatsData.csv"]
 fileNameForWriting = "episodeInformationOutput.json"
 
 # File read and write pointers
-metadataReader = csv.DictReader(open(filePath + fileNameForReading[0], 'r'), delimiter=",")
-transcriptReader = open(filePath + fileNameForReading[1], 'r')
-jsonWriter = open(filePath + fileNameForWriting, 'w')
+metadataReader = csv.DictReader(open(filePath[0] + fileNameForReading[0], 'rb'), delimiter=",")
+transcriptReader = open(filePath[0] + fileNameForReading[1], 'rb')
+jsonWriter = open(filePath[1] + fileNameForWriting, 'wb')
 
-# count = 0
-episodeList = [] # Needs a new data structure that will store the show ID specifically as the key
+# tempvar for debugging
+count = 0
+# Use @staticmethod getShowID as key for EpisodeList and TranscriptList Dictionaries
+episodeList = {} 
 transcriptList = {}
 
-# DataContent Operations
-for line in transcriptReader:
-	print(line[150:202])
+# MetaData operations
+for line in metadataReader:
+	print(line["b'Show #'"])
+	# Create and store Metadata information for each episode
+	# episode = Episode(line["b'Title'"])
+	# episode.setEpisodeID(line["b'Show #'"])
+	# episode.setEpisodeNumber(line["b'Show No.'"])
+	# episode.addTopics(line["b'Topics'"])
+	# episode.addRecipes(line["b'Recipes'"])
+	# episode.addAirDate(line["b'Original Air Date'"])
+	# episode.addTranscriptID(line["b'Transcript'"])
 
-# # MetaData operations
-# for line in metadataReader:
-	
-# 	episode = Episode(line['Title'])
-# 	episode.setEpisodeID(line['Show #'])
-# 	episode.setEpisodeNumber(line['Show No.'])
-# 	episode.addTopics(line['Topics'])
-# 	episode.addRecipes(line['Recipes'])
-# 	episode.addAirDate(line['Original Air Date'])
-# 	episode.addTranscriptID(line['Transcript'])
+	# episodeList[Episode.getShowID(line[b'Show #'])] = episode
 
-# 	episodeList.append(episode.__dict__)
+	count += 1
 
-# 	# print(json.dumps(episode.__dict__))
-
-	
-# 	# count += 1
-
-# 	# if count > 3:
-# 	# 	break
+	if count > 3:
+		break
 
 # json.dump(episodeList, jsonWriter, sort_keys=True)
 

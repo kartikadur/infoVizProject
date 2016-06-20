@@ -29,45 +29,50 @@ class Episode(object):
 
 	def setEpisodeID(self, episodeID):
 		self.episodeID = episodeID
-		self.setSeasonNumber()
-		self.setSeasonEpisodeNumber()
-		self.setShowID()
+		self.seasonNumber = self.getSeasonNumber(episodeID)
+		self.seasonEpisodeNumber = self.getSeasonEpisodeNumber(episodeID)
 
-	def setShowID(self):
-		# self.setEpisodeObjectID = str(self.showSeason).zfill(zFillNumber) + 
-		self.showID = str(self.seasonNumber).zfill(2) + str(self.seasonEpisodeNumber).zfill(2)
+	@staticmethod
+	def getShowID(episodeID = None):
+		return str(Episode.getSeasonNumber(episodeID)).zfill(2) + str(Episode.getSeasonEpisodeNumber(episodeID)).zfill(2)
 
-	def setSeasonEpisodeNumber(self):
-		eid = self.episodeID[4:6]
+	@staticmethod
+	def getSeasonEpisodeNumber(episodeID = None):
+		if not isinstance(episodeID, str) :
+			episodeID = episodeID.decode('utf-8')
+		eid = episodeID[4:6].strip()
 		if eid:
-			self.seasonEpisodeNumber = int(eid.strip())
+			return int(eid.strip())
 		else :
-			self.seasonEpisodeNumber = None
+			return None
 		
-	def setSeasonNumber(self):
-		sid = self.episodeID[2:4].strip()
+	@staticmethod
+	def getSeasonNumber(episodeID = None):
+		if not isinstance(episodeID, str) :
+			episodeID = episodeID.decode('utf-8')
+		sid = episodeID[2:4].strip()
 		if sid == "SP":
-			self.seasonNumber = 15
+			return 15
 		elif sid == "1A":
-			self.seasonNumber = 1
+			return 1
 		elif sid == "1B":
-			self.seasonNumber = 2
+			return 2
 		elif sid == "1C":
-			self.seasonNumber = 3
+			return 3
 		elif sid == "1D":
-			self.seasonNumber = 4
+			return 4
 		elif sid == "1E":
-			self.seasonNumber = 5
+			return 5
 		elif sid == "1F":
-			self.seasonNumber = 6
+			return 6
 		elif sid == "1G":
-			self.seasonNumber = 7
+			return 7
 		elif sid == "1H":
-			self.seasonNumber = 8
+			return 8
 		elif sid and int(sid) >= 9 and int(sid) <= 14:
-			self.seasonNumber = int(sid)
+			return int(sid)
 		else :
-			self.seasonNumber = None
+			return None
 
 	def setEpisodeNumber(self, showNo):
 		self.episodeNumber = re.sub(r"(st|nd|rd|th)$", "", showNo, flags=re.I)

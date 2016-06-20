@@ -27,9 +27,8 @@ for row in readManager:
 	content = dataCleaner.ConvertHTMLToUnicode(responseObj)
 	content = dataCleaner.CleanDataUsingRegex('<[^>]*>', '', content)
 	content = dataCleaner.CleanDataUsingRegex(u'\u00A0', ' ', content)
-	content = dataCleaner.CleanDataUsingRegex('[\\n]+', '', content)
+	content = dataCleaner.CleanDataUsingRegex('[\\n]+', ' ', content)
 	content = dataCleaner.CleanDataUsingRegex('[\s]+', ' ', content)
-	content = content.encode('utf-8')
 
 	# Write EpisodeCode, EpisodeContent to file
 	writeManager.writerow([row[0], content])

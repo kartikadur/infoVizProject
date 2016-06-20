@@ -97,8 +97,8 @@ class DataCleaner:
 				item = self.CleanDataUsingRegexList('[’]', '\'', item)
 				item = self.CleanDataUsingRegexList('[\\n]+', '', item)
 				item = self.CleanDataUsingRegexList('[\s]+', ' ', item)
-				item[0] = item[0].encode('utf-8')
-				item[1] = item[1].encode('utf-8')
+				# item[0] = item[0].encode('utf-8')
+				# item[1] = item[1].encode('utf-8')
 				datasets[item[0]] = item[1]
 				# print(item[0].encode('utf-8'), item[1].encode('utf-8'))
 
