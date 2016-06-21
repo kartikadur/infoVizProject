@@ -17,34 +17,47 @@ jsonWriter = open(filePath[1] + fileNameForWriting, 'w', encoding='utf-8')
 # tempvar for debugging
 count = 0
 # Use @staticmethod getShowID as key for EpisodeList and TranscriptList Dictionaries
-episodeList = OrderedDict() 
-transcriptList = {}
+# episodeList = OrderedDict() 
+# transcriptList = {}
+
+rNodesList, nodesList = [],[]
+linksList = []
 
 # MetaData operations
 for line in metadataReader:
 
-	# Create and store Metadata information for each episode
-	episode = Episode(line['Title'])
-	episode.setEpisodeID(line['Show #'])
-	episode.setEpisodeNumber(line['Show No.'])
-	episode.addTopics(line['Topics'])
-	episode.addRecipes(line['Recipes'])
-	episode.addAirDate(line['Original Air Date'])
-	episode.addTranscriptID(line['Transcript'])
+	rNodesList.append({'name': Episode.getShowID(line['Show #']), 'group' : Episode.getSeasonNumber(line['Show #'])})
 
-	episodeList[Episode.getShowID(line['Show #'])] = episode
+nodesListLength = len(rNodesList)
+for i in range(0, nodesListLength):
+	nodesList.append(rNodesList[nodesListLength - i - 1])
+	if i > 0:
+		linksList.append({'source' : i - 1, 'target' : i, 'value' : 1})
 
-	# print(episode.__dict__)
+json.dump({ 'nodes' : nodesList, 'links' : linksList}, jsonWriter)
 
-	count += 1
+# 	# Create and store Metadata information for each episode
+# 	episode = Episode(line['Title'])
+# 	episode.setEpisodeID(line['Show #'])
+# 	episode.setEpisodeNumber(line['Show No.'])
+# 	episode.addTopics(line['Topics'])
+# 	episode.addRecipes(line['Recipes'])
+# 	episode.addAirDate(line['Original Air Date'])
+# 	episode.addTranscriptID(line['Transcript'])
 
-	if count > 3:
-		break
+# 	episodeList[Episode.getShowID(line['Show #'])] = episode
 
-properOrderEpisodeList = OrderedDict(sorted(episodeList.items()))
-for ep in properOrderEpisodeList:
-	print(ep, properOrderEpisodeList[ep].__dict__)
-# json.dump(episodeList, jsonWriter, sort_keys=True)
+# 	# print(episode.__dict__)
+
+# 	count += 1
+
+# 	if count > 3:
+# 		break
+
+# properOrderEpisodeList = OrderedDict(sorted(episodeList.items()))
+# for ep in properOrderEpisodeList:
+# 	print(ep, properOrderEpisodeList[ep].__dict__)
+# # json.dump(episodeList, jsonWriter, sort_keys=True)
 
 
 
