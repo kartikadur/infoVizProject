@@ -1,9 +1,11 @@
-.node {
-  stroke: #fff;
-  stroke-width: 1.5px;
+body {
+	font: 12px Roboto, sans-serif;
+	color: #434343;
 }
-
-.link {
-  stroke: #999;
-  stroke-opacity: .6;
+svg text {
+  font-size: 1.2em;
+  text-anchor: middle;
+}
+svg g text {
+	fill: ivory;
 }

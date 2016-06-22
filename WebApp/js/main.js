@@ -1,65 +1,71 @@
 (function(window, document, d3, undefined) {
-	var margin = 10,
-		width = window.innerWidth - 2 * margin,
-		height = window.innerHeight - 2* margin,
-		radius = 20;
+  var width = 880,
+    height = 600,
+    cellsize = 35,
+    border = 1;
 
-	var color = d3.scale.category20();
+  var color = d3.scale.category20();
 
-	var force = d3.layout
-					.force()
-					.gravity(0.05)
-					.charge(-10)
-					.linkDistance(30)
-					.size([width, height]);
+  var svg = d3.select('body')
+              .append('svg')
+              .attr({
+                'width': width,
+                'height': height
+              });
 
-	var svg = d3.select('body')
-				.append('svg')
-				.attr('width', width)
-				.attr('height', height);
+  d3.csv('data/csvOutput.csv', function(error, csv) {
 
-	d3.json("js/data.json", function(error, graph) {
-		if (error) throw error;
 
-		console.log(graph);
-		force
-			.nodes(graph.nodes)
-			.links(graph.links)
-			.start()
+    var episode = svg.selectAll('.episode')
+              .data(csv)
+              .enter()
+              .append('g')
+              .attr({
+                'class': 'episode',
+                'x': function(d) { return d.seasonEpisodeNumber * cellsize + cellsize;},
+                'y': function(d) { return d.seasonNumber * cellsize;},
+              });
 
-		var link = svg.selectAll('.link')
-						.data(graph.links)
-						.enter()
-						.append("line")
-						.attr("class", "link")
-						.style("stroke-width", function(d){ return Math.sqrt(d.value); });
 
-		var node = svg.selectAll('.node')
-						.data(graph.nodes)
-						.enter()
-						.append('rect')
-						.attr('class','node')
-						.attr('width', radius)
-						.attr('height', radius)
-						.style('fill', function(d) { return color(d.group); });
+      episode.append('rect')
+              .attr({
+                'width': cellsize,
+                'height': cellsize,
+                'x': function(d) { return d.seasonEpisodeNumber * cellsize + cellsize;},
+                'y': function(d) { return d.seasonNumber * cellsize;},
+                'fill': function(d) { return color(d.seasonNumber); },
+                'stroke-width': border,
+                'stroke': 'whitesmoke',
+                'title' : function(d) {return d.showTitle;}
+              });
 
-		node.append('title')
-			.text(function(d) { return d.name; });
+      episode.append('text')
+              .attr({
+                'class' : 'title',
+                'x' : function(d) { return d.seasonEpisodeNumber * cellsize + 1.5 * cellsize; },
+                'y' : function(d) { return d.seasonNumber * cellsize + 0.6 * cellsize; }
+              })
+              .text(function(d) { return d.seasonEpisodeNumber; });
 
-		force.on("tick", function() {
-		    link.attr("x1", function(d) { return d.source.x + radius/2; })
-		        .attr("y1", function(d) { return d.source.y + radius/2; })
-		        .attr("x2", function(d) { return d.target.x + radius/2; })
-		        .attr("y2", function(d) { return d.target.y + radius/2; });
 
-		    // node.attr("cx", function(d) { return d.x; })
-		    //     .attr("cy", function(d) { return d.y; });
+      svg.selectAll('.y-axis')
+              .data(d3.range(0,16))
+              .enter()
+              .append('text')
+              .attr({
+                'class': 'y-axis',
+                'x': function(d) { return cellsize; },
+                'y': function(d) { return d * cellsize; },
+                'dy': function(d) { return 0.65 * cellsize; }
+              })
+              .text(function(d) { 
+                if(d === 0){
+                  return 'Season';
+                } else {
+                  return d;
+                }});
 
-		    node.attr("x", function(d) { return d.x = Math.max(radius, Math.min(width - radius, d.x)); })
-		        .attr("y", function(d) { return d.y = Math.max(radius, Math.min(height - radius, d.y)); });
 
-			});
-
-	});
+  });
 
 })(window, document, d3);

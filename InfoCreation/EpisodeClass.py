@@ -75,7 +75,7 @@ class Episode(object):
 			return None
 
 	def setEpisodeNumber(self, showNo):
-		self.episodeNumber = re.sub(r"(st|nd|rd|th)$", "", showNo, flags=re.I)
+		self.episodeNumber = re.sub(r"(st|nd|rd|th).*$", "", showNo, flags=re.I)
 
 	def addTopics(self, topics):
 		self.topicList = topics.strip().split(", ")

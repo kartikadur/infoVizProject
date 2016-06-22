@@ -41,6 +41,10 @@ class TestEpisode(unittest.TestCase):
 		self.ep.setEpisodeNumber('24th')
 		self.assertEqual(self.ep.episodeNumber, '24')
 
+		# Check for xxx(st|nd|rd|th) followed by other text
+		self.ep.setEpisodeNumber('199th Note: If the cranberry episode, Cran Opening, had aired in the US during the same season as it was created, this would have been the 200th episode in the USA.')
+		self.assertEqual(self.ep.episodeNumber, '199')
+
 	# Check for topics list
 	def test_toCreateListFromAddedTopics(self):
 		self.ep.addTopics("Turkeys, Brining, Electric Knives, Stuffing, Basting, Probe Thermometers")
