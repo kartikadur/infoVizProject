@@ -1,7 +1,7 @@
 (function(window, document, d3, undefined) {
 
   var height = 36,
-	  width = 960,
+	  width = 720,
 	  margin = {top: 10, right: 10, bottom: 10, left: 10},
 	  cell = 30;
 
@@ -57,30 +57,54 @@
 								'width' : cell,
 								'height' : cell
 							})
+							.classed('active', true)
 							.on('mouseover', function(d) {
 								pointer = d3.event
 								tooltip.style('visibility', 'visible');
-								
-								tooltip.transition()
-										.duration(200)
-										.style('opacity', 0.95)
 
 								tooltip.html(
-									'<h3>Title: ' + d.showTitle + '</h3>'
-									+ '<p> Original Air Date: ' + dateFormat(new Date(d.airDate)) + '</p>'
-									)
+												'<h3>Title: ' + d.showTitle + '</h3>'
+												+ '<p> Original Air Date: ' + dateFormat(new Date(d.airDate)) + '</p>'
+										)
+
+								tooltip.style({
+									'left' : function(d) { 
+											if (tooltip[0][0].clientWidth + pointer.pageX + 50 >= window.innerWidth){
+												return pointer.pageX - tooltip[0][0].clientWidth - 40 + 'px';
+											} else {
+												return pointer.pageX + 25 + 'px'; 
+											}											
+										},
+									'top' : function(d) {
+											if (tooltip[0][0].clientHeight + pointer.pageY + 20 >= window.innerHeight){
+												return pointer.pageY - tooltip[0][0].clientHeight + 'px';
+											} else {
+												return pointer.pageY - 25 + 'px'; 
+											}
+											pointer.pageY + 'px'
+										}
+								});
+								
+								tooltip.transition()
+										.duration(250)
 										.style({
-											'left' : pointer.pageX + 25 + 'px',
-											'top' : pointer.pageY + 'px'
+											'opacity': 0.95
 										});
+
+								
 
 							})
 							.on('mouseout', function(d) {
 								tooltip.transition()
-										.duration(150)
+										.duration(250)
 										.style({
 											'opacity' : 0
 										});
+
+								tooltip.style({
+									'left' : '-500px',
+									'top' : '-500px'
+								});
 							});
   });
 

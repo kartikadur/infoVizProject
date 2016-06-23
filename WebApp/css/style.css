@@ -19,6 +19,8 @@ svg g text {
 
 div {
 	background : whitesmoke;
+	border: 1px solid #434343;
+	color: #434343;
 }
 
 
@@ -28,10 +30,10 @@ div {
 #2F789B,#327FA3,#3586AC*/
 
 svg rect {
-	fill: #25AA62;
+	fill: #fdcdac;
 	stroke: whitesmoke;
 }
 
 svg rect.active {
-	fill: #115A32;
+	fill: #fc8d62;
 }
