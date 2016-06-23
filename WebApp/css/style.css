@@ -2,10 +2,36 @@ body {
 	font: 12px Roboto, sans-serif;
 	color: #434343;
 }
+
+svg {
+	float: left;
+	clear: left;
+}
+
 svg text {
   font-size: 1.2em;
   text-anchor: middle;
 }
+
 svg g text {
 	fill: ivory;
+}
+
+div {
+	background : whitesmoke;
+}
+
+
+/*#0D2C3B,#103242,#12384A,#153E52,
+#184459,#1A4A61,#1D5169,#205771,
+#235E79,#266481,#296B8A,#2C7192,
+#2F789B,#327FA3,#3586AC*/
+
+svg rect {
+	fill: #25AA62;
+	stroke: whitesmoke;
+}
+
+svg rect.active {
+	fill: #115A32;
 }
