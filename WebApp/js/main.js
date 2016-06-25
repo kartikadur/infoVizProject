@@ -1,9 +1,9 @@
 (function(window, document, d3, undefined) {
 
-  var height = 36,
-	  width = 720,
+  var height = 30,
+	  width = 580,
 	  margin = {top: 10, right: 10, bottom: 10, left: 10},
-	  cell = 30;
+	  cell = 25;
 
 	 var dateFormat = d3.time.format('%d/%m/%Y');
 

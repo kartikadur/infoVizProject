@@ -48,7 +48,11 @@ class TestEpisode(unittest.TestCase):
 	# Check for topics list
 	def test_toCreateListFromAddedTopics(self):
 		self.ep.addTopics("Turkeys, Brining, Electric Knives, Stuffing, Basting, Probe Thermometers")
-		self.assertEqual(self.ep.topicList, ["Turkeys","Brining","Electric Knives","Stuffing","Basting","Probe Thermometers"])
+		self.assertEqual(self.ep.topicList, sorted(["Turkeys","Brining","Electric", "Knives","Stuffing","Basting","Probe", "Thermometers"]))
+
+		self.ep.addTopics("Bread Pudding, Bread Stalling, Amylose, Half & Half")
+		self.assertEqual(self.ep.topicList, sorted(["Bread", "Pudding", "Stalling", "Amylose", "Half"]))
+
 
 	# Check for recipe list
 	def test_toCreateListfromAddedRecipes(self):

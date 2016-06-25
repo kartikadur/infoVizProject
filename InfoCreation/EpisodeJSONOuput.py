@@ -25,11 +25,11 @@ count = 0
 # episodeList = OrderedDict() 
 # transcriptList = {}
 
-rNodesList, nodesList = [],[]
-linksList = []
 
 """ MetaData operations for force graph"""
 # for line in metadataReader:
+# rNodesList, nodesList = [],[]
+# linksList = []
 
 # 	rNodesList.append({'name': Episode.getShowID(line['Show #']), 'group' : Episode.getSeasonNumber(line['Show #'])})
 

@@ -1,6 +1,9 @@
 # coding: utf-8
 import re
+from EpisodeTopicsEncoding import TopicsTokenizer
 from datetime import datetime
+from nltk.tokenize import RegexpTokenizer
+from nltk.corpus import stopwords
 
 """
 class variables
@@ -78,7 +81,7 @@ class Episode(object):
 		self.episodeNumber = re.sub(r"(st|nd|rd|th).*$", "", showNo, flags=re.I)
 
 	def addTopics(self, topics):
-		self.topicList = topics.strip().split(", ")
+		self.topicList = TopicsTokenizer.removeStopWords(TopicsTokenizer.tokenize(topics))
 
 	def addRecipes(self, recipes):
 		self.recipeList = []
