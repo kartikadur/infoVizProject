@@ -6,6 +6,10 @@ body {
 /*Clearfix From Bootstrap*/
 .clearfix{*zoom:1;}.clearfix:before,.clearfix:after{display:table;content:"";line-height:0;}
 .clearfix:after{clear:both;}
+aside {
+	float: right;
+	clear: right;
+}
 
 svg {
 	float: left;
@@ -40,4 +44,19 @@ div {
 
 #linear_episodes rect.active {
 	fill: #fc8d62;
+}
+
+
+button {
+	background: ivory;
+	border: 1px solid black;
+	border-radius: 5px;
+	padding: 4px 10px;
+	margin: 2px;
+	font: 1.2em Roboto;
+	float: left;
+}
+
+button.selected {
+	background: greenyellow;
 }

@@ -125,7 +125,7 @@ class TestEpisode(unittest.TestCase):
 		self.assertEqual(Episode.getSeasonNumber(self.ep.episodeID), 7)
 
 		self.ep.setEpisodeID("")
-		self.assertEqual(Episode.getSeasonNumber(self.ep.episodeID), None)
+		self.assertEqual(Episode.getSeasonNumber(self.ep.episodeID), 0)
 
 	def test_toCheckEpisodeForSeasonEpisodeNumber(self):
 		self.ep.setEpisodeID("EA1004H")

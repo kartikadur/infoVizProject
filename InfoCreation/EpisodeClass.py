@@ -75,7 +75,7 @@ class Episode(object):
 		elif sid and int(sid) >= 9 and int(sid) <= 14:
 			return int(sid)
 		else :
-			return None
+			return 00
 
 	def setEpisodeNumber(self, showNo):
 		self.episodeNumber = re.sub(r"(st|nd|rd|th).*$", "", showNo, flags=re.I)

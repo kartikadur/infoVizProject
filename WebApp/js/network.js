@@ -14,8 +14,8 @@
 	});
 
 	var force = d3.layout.force()
-	.charge(-150)
-	.linkDistance(30)
+	.charge(-50)
+	.linkDistance(50)
 	.size([width, height]);
 
 	d3.json('data/textNetwork.json', function(error, graph){

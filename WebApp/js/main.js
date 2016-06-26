@@ -32,6 +32,25 @@
 		'padding' : '5px'
 	});
 
+	var year_selector = d3.select('#linear_controls').selectAll('.year_selector')
+		.data(d3.range(1999, 2011))
+		.enter()
+		.append('button')
+		.attr({
+			'class' : 'year_selector',
+		})
+		.classed('selected', false)
+		.text(function(d) { return d; });
+
+	var clear_selection = d3.select("#linear_controls")
+		.append('button')
+		.attr({
+			'class' : 'clear'
+		})
+		.classed('selected', true)
+		.text('No selections');
+
+
 	d3.json('data/goodEatsJSONData.json', function(error, json) {
 
 		var yAxisText = svg.append('text')
@@ -47,7 +66,7 @@
 		.enter()
 		.append('rect')
 		.attr({
-			'class' : 'episodes',
+			'class' : function(d) { return 'episodes yr_' + new Date(d.airDate).getFullYear(); },
 			'x' : function(d) { return d.seasonEpisodeNumber * cell; },
 			'y' : function(d) { return (height - cell) / 2;},
 			'width' : cell,
@@ -116,6 +135,31 @@
 				'top' : '-500px'
 			});
 		});
+
+		year_selector.on('click', function(d) {
+			
+			d3.selectAll('#linear_controls button').classed('selected', false)
+
+			d3.select(this).classed('selected', true)
+
+			// Set all episodes as inactive
+			d3.selectAll('.episodes').classed('active', false);
+
+			// Set appropriate classes active
+			d3.selectAll('.yr_' + d).classed('active', true);
+		});
+
+		clear_selection.on('click', function(d) {
+
+			d3.selectAll('#linear_controls button').classed('selected', false)
+
+			d3.select(this).classed('selected', true)
+
+			// Set all episodes as active
+			d3.selectAll('.episodes').classed('active', true);
+
+		});
+
 	});
 
 })(window, document, d3);

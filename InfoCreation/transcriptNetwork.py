@@ -29,7 +29,14 @@ for line in readMetadata:
 	nodeIDs.append(Episode.getShowID(line['Show #']))
 	# break
 
-# print(episodeList)
+# Add 'another show' as an extra show as it is always referenced
+# in the show but never really links anywhere, so put it as a dead-end link
+episode = Episode('Referenced Mystery Show')
+episode.setEpisodeID('EA0000')
+episode.addTranscriptID('Another Show')
+episodeList[Episode.getShowID('EA0000')] = episode
+nodeIDs.append(Episode.getShowID('EA0000'))
+print(nodeIDs)
 
 # Add transcript to each episode instance
 for data in readData:
@@ -39,12 +46,12 @@ for data in readData:
 for ep in episodeList:
 	jsonEpisodeList[ep] = episodeList[ep].__dict__
 
-nodeIDs = sorted(nodeIDs)
+# nodeIDs = sorted(nodeIDs)
 
 # loop i from 1 to n-1 and j from i+1 to n
 for i in nodeIDs:
 	for j in nodeIDs:
-		if i < j and jsonEpisodeList[i]['transcriptID'] in jsonEpisodeList[j]['transcriptContent'] :
+		if i < j and jsonEpisodeList[i]['transcriptID'].lower() in jsonEpisodeList[j]['transcriptContent'].lower() :
 			linksList.append({
 				'source': i,
 				'target': j,
