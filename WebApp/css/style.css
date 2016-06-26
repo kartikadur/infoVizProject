@@ -3,6 +3,10 @@ body {
 	color: #434343;
 }
 
+/*Clearfix From Bootstrap*/
+.clearfix{*zoom:1;}.clearfix:before,.clearfix:after{display:table;content:"";line-height:0;}
+.clearfix:after{clear:both;}
+
 svg {
 	float: left;
 	clear: left;
@@ -29,11 +33,11 @@ div {
 #235E79,#266481,#296B8A,#2C7192,
 #2F789B,#327FA3,#3586AC*/
 
-svg rect {
+#linear_episodes rect {
 	fill: #fdcdac;
 	stroke: whitesmoke;
 }
 
-svg rect.active {
+#linear_episodes rect.active {
 	fill: #fc8d62;
 }
