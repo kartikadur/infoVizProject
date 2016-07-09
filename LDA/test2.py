@@ -1,7 +1,7 @@
 # coding : utf8
 # imports
 import csv
-from nltk.tokenize import RegexpTokenizer, word_tokenize
+from nltk.tokenize import RegexpTokenizer
 from nltk.corpus import stopwords
 from nltk.stem import PorterStemmer
 from gensim import corpora, models
@@ -33,6 +33,7 @@ for line in fileHandler:
 	stopped_tokens = [i for i in tokens if i not in stop_words and len(i) > 2]
 	stemmed_tokens = [stemmer.stem(i) for i in stopped_tokens]
 	texts.append(stemmed_tokens)
+	print("Done Episode {}".format(line[0]))
 	# print([i.encode('utf-8') for i in stemmed_tokens])
 	# count += 1
 	# if count > 3:
@@ -43,10 +44,10 @@ dictionary = corpora.Dictionary(texts)
 corpus = [dictionary.doc2bow(text) for text in texts]
 
 # LDA Modelling
-ldamodel = models.ldamodel.LdaModel(corpus, num_topics = 3, id2word = dictionary, passes = 20)
+ldamodel = models.ldamodel.LdaModel(corpus, num_topics = 10, id2word = dictionary, passes = 250)
 
-print(ldamodel.print_topics(num_topics=3, num_words=1))
-print(ldamodel.print_topics(num_topics=3, num_words=2))
-print(ldamodel.print_topics(num_topics=3, num_words=3))
-print(ldamodel.print_topics(num_topics=3, num_words=4))
+print(ldamodel.print_topics(num_topics=10, num_words=1))
+print(ldamodel.print_topics(num_topics=10, num_words=2))
+print(ldamodel.print_topics(num_topics=10, num_words=3))
+print(ldamodel.print_topics(num_topics=10, num_words=4))
 # print(ldamodel.print_topic())
