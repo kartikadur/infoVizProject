@@ -7,7 +7,7 @@ from collections import OrderedDict
 
 filePath = ['../Data','../DataCleaned']
 inputFileName = ['goodEatsMetadata.csv', 'goodEatsData.csv']
-outputFileName = ['textNetwork.json']
+outputFileName = ['testNetwork.json']
 
 
 # File Handlers / File Pointers
@@ -51,7 +51,7 @@ for ep in episodeList:
 # loop i from 1 to n-1 and j from i+1 to n
 for i in nodeIDs:
 	for j in nodeIDs:
-		if i < j and jsonEpisodeList[i]['transcriptID'].lower() in jsonEpisodeList[j]['transcriptContent'].lower() :
+		if i < j and len(jsonEpisodeList[i]['transcriptID'].lower()) > 2 and jsonEpisodeList[i]['transcriptID'].lower() in jsonEpisodeList[j]['transcriptContent'].lower() :
 			linksList.append({
 				'source': i,
 				'target': j,
