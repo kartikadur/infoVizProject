@@ -33,9 +33,10 @@ class DataCollector:
 		responseObj = requests.get(targetURL)
 		# print(responseObj.text)
 		# print responseObj.text.encode('utf-8')
-		print('sanity check data manager')
+		# print('sanity check data manager')
 		return responseObj.text
 
+# File is very specific to good eats data, should be generalized more
 class DataCleaner:
 
 	"""docstring for DataCleaner"""
