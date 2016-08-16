@@ -18,8 +18,8 @@ lemmatizer = WordNetLemmatizer()
 sWords = set(stopwords.words('english'))
 
 # FileHandling setup
-filePath = ['../Data']
-fileName = ['goodEatsData.csv']
+filePath = ['../DataCleaned']
+fileName = ['futurama_transcripts.csv']
 fileHandler = csv.reader(open('/'.join([filePath[0],fileName[0]]),'r', encoding='utf-8'), delimiter=',')
 
 # Pattern setup for regex matcher
@@ -55,7 +55,7 @@ def pos_to_wn(pos_type):
 
 # NLTK bangers and mash
 for line in fileHandler:
-	tokens = tokenizer.tokenize(line[1].lower())
+	tokens = tokenizer.tokenize(line[2].lower())
 	stopped_tokens = [token for token in tokens if token not in sWords and len(token) > 2]
 	tagged_tokens = nltk.pos_tag(stopped_tokens)
 	lemmatized_tokens = [lemmatizer.lemmatize(i, pos_to_wn(tag)) for i, tag in tagged_tokens if check_tag(tag)]
@@ -130,4 +130,42 @@ Topic #14 : 0.090*strawberry + 0.061*berry + 0.021*bread + 0.012*can + 0.010*clo
 Topic #41 : 0.000*get + 0.000*well + 0.000*go + 0.000*thy + 0.000*joist + 0.000*gilliam + 0.000*addicted + 0.000*guru + 0.000*wahunitashur + 0.000*imitator
 [Finished in 10970.9s]
 
+futurama_transcripts output 10 and 50
+Topic #0 : 0.036*bender + 0.034*fry + 0.024*leela + 0.012*farnsworth + 0.009*get + 0.007*look + 0.006*ship + 0.006*hermes + 0.006*cut + 0.006*robot
+Topic #1 : 0.000*fry + 0.000*leela + 0.000*bender + 0.000*look + 0.000*get + 0.000*zoidberg + 0.000*ship + 0.000*farnsworth + 0.000*cut + 0.000*planet
+Topic #2 : 0.000*fry + 0.000*leela + 0.000*bender + 0.000*zoidberg + 0.000*get + 0.000*farnsworth + 0.000*planet + 0.000*cut + 0.000*amy + 0.000*ship
+Topic #3 : 0.028*bender + 0.017*fry + 0.013*leela + 0.011*zoidberg + 0.010*robot + 0.009*farnsworth + 0.006*get + 0.006*mom + 0.006*planet + 0.005*man
+Topic #4 : 0.030*angleyne + 0.025*flexo + 0.021*bend + 0.009*clamp + 0.009*girder + 0.006*love + 0.006*donbot + 0.005*scab + 0.005*plant + 0.004*bender
+Topic #5 : 0.035*kif + 0.034*zapp + 0.029*leela + 0.020*amy + 0.017*fry + 0.016*bender + 0.008*ship + 0.007*get + 0.007*planet + 0.006*cut
+Topic #6 : 0.047*fry + 0.020*bender + 0.016*leela + 0.010*cut + 0.009*farnsworth + 0.008*ship + 0.008*lrrr + 0.007*worm + 0.007*seymour + 0.007*zoidberg
+Topic #7 : 0.000*leela + 0.000*bender + 0.000*fry + 0.000*ship + 0.000*farnsworth + 0.000*cut + 0.000*look + 0.000*zoidberg + 0.000*get + 0.000*planet
+Topic #8 : 0.044*fry + 0.031*leela + 0.025*bender + 0.010*zoidberg + 0.007*get + 0.007*farnsworth + 0.007*look + 0.007*amy + 0.005*cut + 0.005*planet
+Topic #9 : 0.020*fry + 0.017*bender + 0.014*leela + 0.012*coilette + 0.008*melllvar + 0.008*calculon + 0.007*ship + 0.007*zapp + 0.006*shatner + 0.006*get
+[Finished in 288.4s]
+
+futurama_transcripts output 50 and 100
+Topic #41 : 0.011*showroom + 0.004*abduction + 0.004*dashboard + 0.004*guzzler + 0.004*fastness + 0.004*bigfeet + 0.004*plymouth + 0.004*seens + 0.004*margarita + 0.004*anybodys
+Topic #19 : 0.034*bender + 0.018*fry + 0.017*leela + 0.016*robot + 0.015*hermes + 0.014*devil + 0.013*coilette + 0.009*morgan + 0.009*sing + 0.008*calculon
+Topic #1 : 0.000*fry + 0.000*bender + 0.000*leela + 0.000*farnsworth + 0.000*get + 0.000*zoidberg + 0.000*look + 0.000*cut + 0.000*express + 0.000*amy
+Topic #6 : 0.000*bender + 0.000*leela + 0.000*fry + 0.000*farnsworth + 0.000*time + 0.000*look + 0.000*zoidberg + 0.000*amy + 0.000*take + 0.000*planet
+Topic #29 : 0.000*fry + 0.000*leela + 0.000*bender + 0.000*zoidberg + 0.000*farnsworth + 0.000*planet + 0.000*cut + 0.000*look + 0.000*slurm + 0.000*ship
+Topic #49 : 0.004*reconstitute + 0.000*bender + 0.000*leela + 0.000*fry + 0.000*get + 0.000*farnsworth + 0.000*look + 0.000*kif + 0.000*planet + 0.000*amy
+Topic #18 : 0.000*fry + 0.000*leela + 0.000*bender + 0.000*zoidberg + 0.000*get + 0.000*zapp + 0.000*ship + 0.000*look + 0.000*farnsworth + 0.000*cut
+Topic #42 : 0.000*bender + 0.000*leela + 0.000*fry + 0.000*get + 0.000*look + 0.000*cut + 0.000*farnsworth + 0.000*robot + 0.000*planet + 0.000*man
+Topic #20 : 0.000*bender + 0.000*fry + 0.000*leela + 0.000*get + 0.000*farnsworth + 0.000*robot + 0.000*zoidberg + 0.000*planet + 0.000*amy + 0.000*express
+Topic #31 : 0.044*bender + 0.026*leela + 0.019*fry + 0.010*robot + 0.009*farnsworth + 0.008*get + 0.007*look + 0.006*mom + 0.006*cut + 0.005*take
+[Finished in 636.1s]
+
+futurama_transcripts output for 50 and 500
+Topic #35 : 0.000*bender + 0.000*leela + 0.000*fry + 0.000*keel + 0.000*cuddle + 0.000*kareoke + 0.000*spank + 0.000*fempute + 0.000*hairball + 0.000*craziness
+Topic #48 : 0.000*fry + 0.000*bender + 0.000*leela + 0.000*keel + 0.000*cuddle + 0.000*kareoke + 0.000*spank + 0.000*fempute + 0.000*hairball + 0.000*craziness
+Topic #46 : 0.000*craziness + 0.000*hairball + 0.000*kareoke + 0.000*fempute + 0.000*blade + 0.000*keel + 0.000*yack + 0.000*loved + 0.000*knowing + 0.000*impression
+Topic #9 : 0.053*fry + 0.021*leela + 0.020*bender + 0.018*zoidberg + 0.013*farnsworth + 0.009*get + 0.008*cut + 0.008*look + 0.008*robot + 0.007*ship
+Topic #7 : 0.000*fry + 0.000*bender + 0.000*fempute + 0.000*craziness + 0.000*cuddle + 0.000*kareoke + 0.000*knowing + 0.000*impression + 0.000*hairball + 0.000*blade
+Topic #6 : 0.000*bender + 0.000*fempute + 0.000*craziness + 0.000*cuddle + 0.000*kareoke + 0.000*knowing + 0.000*blade + 0.000*loved + 0.000*impression + 0.000*jurassic
+Topic #0 : 0.034*bender + 0.029*fry + 0.026*leela + 0.014*robot + 0.011*devil + 0.009*penguin + 0.007*hand + 0.007*farnsworth + 0.007*ship + 0.006*look
+Topic #41 : 0.000*craziness + 0.000*hairball + 0.000*kareoke + 0.000*fempute + 0.000*blade + 0.000*keel + 0.000*yack + 0.000*loved + 0.000*knowing + 0.000*impression
+Topic #38 : 0.000*bender + 0.000*leela + 0.000*fry + 0.000*keel + 0.000*cuddle + 0.000*kareoke + 0.000*spank + 0.000*fempute + 0.000*hairball + 0.000*craziness
+Topic #42 : 0.000*bender + 0.000*fry + 0.000*zoidberg + 0.000*leela + 0.000*keel + 0.000*cuddle + 0.000*kareoke + 0.000*spank + 0.000*craziness + 0.000*blade
+[Finished in 3915.4s]
 '''
